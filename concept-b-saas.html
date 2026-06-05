@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>컨셉 B · 소프트 SaaS · CTMS</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root{
+      --bg:#f4f5fb; --surface:#ffffff; --line:#ebe9f5; --line-soft:#f3f1fa;
+      --text:#1b1834; --muted:#7b7894; --muted-2:#a6a3ba;
+      --grad:linear-gradient(135deg,#6366f1 0%,#a855f7 100%);
+      --grad-2:linear-gradient(135deg,#0ea5e9 0%,#22d3ee 100%);
+      --accent:#7c3aed; --accent-soft:#f1ecfe; --accent-text:#6d28d9;
+      --pink:#ec4899; --pink-soft:#fde9f3; --green:#10b981; --green-soft:#e3f8f1;
+      --amber:#f59e0b; --amber-soft:#fdf2dc; --sky:#0ea5e9; --sky-soft:#e2f4fd; --rose:#f43f5e; --rose-soft:#fde7ec;
+      --r-sm:12px; --r-md:16px; --r-lg:22px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Pretendard',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+    .muted{color:var(--muted)}
+    .appbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:0 28px}
+    .appbar-inner{display:flex;align-items:center;gap:28px;height:66px;max-width:1320px;margin:0 auto}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:20px;letter-spacing:-.02em}
+    .brand .dot{width:34px;height:34px;border-radius:11px;background:var(--grad);color:#fff;display:grid;place-items:center;font-size:16px;box-shadow:0 6px 16px rgba(124,58,237,.35)}
+    .scr-tabs{display:flex;gap:4px}
+    .scr-tabs a{border:0;background:transparent;color:var(--muted);font-weight:600;font-size:14.5px;padding:10px 18px;border-radius:12px;cursor:pointer;transition:.2s;font-family:inherit;text-decoration:none}
+    .scr-tabs a:hover{background:var(--line-soft);color:var(--text)}
+    .scr-tabs a.active{background:var(--grad);color:#fff;box-shadow:0 8px 18px rgba(124,58,237,.3)}
+    .appbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+    .icon-btn{width:42px;height:42px;border-radius:13px;border:1px solid var(--line);background:#fff;color:var(--muted);display:grid;place-items:center;cursor:pointer;font-size:18px;transition:.2s}
+    .icon-btn:hover{background:var(--accent-soft);color:var(--accent-text)}
+    .avatar{width:42px;height:42px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px}
+    .page{max-width:1320px;margin:0 auto;padding:32px 28px 70px}
+    .screen{display:none;animation:fade .4s ease}
+    .screen.active{display:block}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:28px;flex-wrap:wrap}
+    .crumb{font-size:13px;color:var(--muted-2);font-weight:500;margin-bottom:8px}
+    .crumb i{font-size:10px;margin:0 5px;vertical-align:1px}
+    h1.title{font-size:29px;font-weight:800;margin:0;letter-spacing:-.02em}
+    .subtitle{color:var(--muted);margin:8px 0 0;font-size:15px}
+    .btn-x{display:inline-flex;align-items:center;gap:7px;border-radius:13px;font-weight:700;font-size:14.5px;padding:11px 20px;border:1px solid transparent;cursor:pointer;font-family:inherit;transition:.2s;text-decoration:none}
+    .btn-primary-x{background:var(--grad);color:#fff;box-shadow:0 10px 22px rgba(124,58,237,.32)}
+    .btn-primary-x:hover{transform:translateY(-1px);box-shadow:0 14px 28px rgba(124,58,237,.4)}
+    .btn-ghost-x{background:#fff;border-color:var(--line);color:var(--text)}
+    .btn-ghost-x:hover{background:var(--line-soft)}
+    .card-x{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:0 8px 30px rgba(75,55,140,.05)}
+    .card-pad{padding:24px 26px}
+    .card-head{display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-bottom:1px solid var(--line-soft)}
+    .card-head h3{font-size:16.5px;font-weight:700;margin:0}
+    .card-head .link{font-size:13.5px;color:var(--accent-text);font-weight:700;text-decoration:none}
+    /* KPI - colorful */
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:24px}
+    .kpi{position:relative;border-radius:var(--r-lg);padding:24px;color:#fff;overflow:hidden}
+    .kpi .ico{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:22px;margin-bottom:18px}
+    .kpi .lab{font-size:14px;font-weight:600;opacity:.92}
+    .kpi .val{font-size:32px;font-weight:800;letter-spacing:-.02em;margin:4px 0 10px}
+    .kpi .trend{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;background:rgba(255,255,255,.22);padding:4px 11px;border-radius:99px}
+    .kpi .glow{position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.16)}
+    .k1{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+    .k2{background:linear-gradient(135deg,#0ea5e9,#22d3ee)}
+    .k3{background:linear-gradient(135deg,#f59e0b,#f97316)}
+    .k4{background:linear-gradient(135deg,#ec4899,#f43f5e)}
+    /* bars */
+    .bars{display:flex;align-items:flex-end;gap:14px;height:200px;padding-top:10px}
+    .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:9px}
+    .bar-track{width:100%;max-width:32px;height:100%;display:flex;align-items:flex-end}
+    .bar-fill{width:100%;border-radius:9px;background:var(--grad);transition:.4s}
+    .bar-x{font-size:12.5px;color:var(--muted)}
+    .legend{display:flex;gap:18px;font-size:13px;color:var(--muted);margin-top:6px}
+    .legend i{width:10px;height:10px;border-radius:4px;display:inline-block;margin-right:6px}
+    .donut-wrap{display:flex;align-items:center;gap:26px}
+    .donut-legend{flex:1}
+    .dl-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:14px}
+    .dl-row:last-child{border-bottom:0}
+    .dl-row .name{display:flex;align-items:center;gap:9px}
+    .dl-row .name i{width:11px;height:11px;border-radius:4px}
+    .dl-row .num{font-weight:700}
+    table.tbl{width:100%;border-collapse:collapse}
+    table.tbl th{font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted-2);font-weight:700;text-align:left;padding:14px 26px;border-bottom:1px solid var(--line)}
+    table.tbl td{padding:16px 26px;border-bottom:1px solid var(--line-soft);font-size:14.5px;vertical-align:middle}
+    table.tbl tr:last-child td{border-bottom:0}
+    table.tbl tbody tr:hover{background:var(--accent-soft)}
+    .badge-x{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:99px}
+    .b-green{color:var(--green);background:var(--green-soft)}
+    .b-amber{color:var(--amber);background:var(--amber-soft)}
+    .b-sky{color:var(--sky);background:var(--sky-soft)}
+    .b-rose{color:var(--rose);background:var(--rose-soft)}
+    .b-accent{color:var(--accent-text);background:var(--accent-soft)}
+    .b-muted{color:var(--muted);background:var(--line-soft)}
+    .ppl{display:flex;align-items:center;gap:10px}
+    .ppl .ava{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700}
+    .nlist{list-style:none;margin:0;padding:0}
+    .nlist li{display:flex;gap:14px;padding:16px 26px;border-bottom:1px solid var(--line-soft)}
+    .nlist li:last-child{border-bottom:0}
+    .nlist .ni{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;font-size:18px;flex-shrink:0;color:#fff}
+    .nlist .nt{font-weight:700;font-size:14.5px;margin:0 0 2px}
+    .nlist .nd{font-size:13px;color:var(--muted);margin:0}
+    .nlist .ntime{font-size:12px;color:var(--muted-2);margin-left:auto;white-space:nowrap}
+    .toolbar{display:flex;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+    .search{position:relative;flex:1;min-width:240px;max-width:400px}
+    .search i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted-2)}
+    .search input{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 16px 12px 44px;font-size:14.5px;font-family:inherit;outline:none;transition:.2s}
+    .search input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+    .chips{display:flex;gap:8px}
+    .chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:9px 17px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s}
+    .chip:hover{background:var(--line-soft)}
+    .chip.on{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 6px 14px rgba(124,58,237,.28)}
+    .pager{display:flex;align-items:center;justify-content:space-between;padding:18px 26px;border-top:1px solid var(--line-soft)}
+    .pager .pp{display:flex;gap:6px}
+    .pager .pp button{min-width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--muted);font-weight:700;cursor:pointer;font-family:inherit}
+    .pager .pp button.on{background:var(--grad);color:#fff;border-color:transparent}
+    .progress-x{height:8px;border-radius:99px;background:var(--line-soft);overflow:hidden;width:120px}
+    .progress-x span{display:block;height:100%;border-radius:99px;background:var(--grad)}
+    .form-tabs{display:flex;gap:6px;margin-bottom:28px;background:var(--line-soft);padding:6px;border-radius:16px;width:max-content}
+    .form-tabs button{border:0;background:transparent;font-family:inherit;font-weight:700;font-size:14.5px;color:var(--muted);padding:11px 22px;cursor:pointer;border-radius:11px;transition:.2s}
+    .form-tabs button.active{background:#fff;color:var(--accent-text);box-shadow:0 4px 12px rgba(75,55,140,.1)}
+    .form-section{margin-bottom:30px}
+    .fs-title{font-size:16px;font-weight:700;margin:0 0 4px;display:flex;align-items:center;gap:9px}
+    .fs-title .n{width:26px;height:26px;border-radius:9px;background:var(--accent-soft);color:var(--accent-text);display:grid;place-items:center;font-size:13px}
+    .fs-desc{font-size:14px;color:var(--muted);margin:0 0 20px;padding-left:35px}
+    .frow{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 24px}
+    .field label{display:block;font-size:13.5px;font-weight:600;margin-bottom:8px}
+    .field label .req{color:var(--rose);margin-left:3px}
+    .field .inp,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:13px;padding:12px 15px;font-size:14.5px;font-family:inherit;background:#fff;outline:none;transition:.2s;color:var(--text)}
+    .field .inp:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+    .field .hint{font-size:12.5px;color:var(--muted-2);margin-top:7px}
+    .field.col-2{grid-column:span 2}
+    .seg{display:flex;background:var(--line-soft);border-radius:13px;padding:5px;width:max-content}
+    .seg button{border:0;background:transparent;font-family:inherit;font-weight:700;font-size:14px;color:var(--muted);padding:9px 20px;cursor:pointer;border-radius:9px}
+    .seg button.on{background:var(--grad);color:#fff}
+    .upload{border:2px dashed var(--line);border-radius:18px;padding:34px;text-align:center;color:var(--muted);background:var(--line-soft)}
+    .upload i{font-size:30px;color:var(--accent)}
+    .hr{height:1px;background:var(--line);border:0;margin:28px 0}
+    @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){.frow{grid-template-columns:1fr}.field.col-2{grid-column:span 1}.scr-tabs{display:none}}
+  </style>
+</head>
+<body>
+
+  <div class="appbar">
+    <div class="appbar-inner">
+      <a href="index.html" class="brand" style="text-decoration:none;color:inherit"><span class="dot">C</span> CTMS</a>
+      <div class="scr-tabs">
+        <a class="active" href="concept-b-saas.html">대시보드</a>
+        <a href="concept-b-list.html">프로젝트 목록</a>
+        <a href="concept-b-form.html">상세 · 등록</a>
+      </div>
+      <div class="appbar-right">
+        <span class="badge-x b-accent" style="font-weight:700">컨셉 B · 소프트 SaaS</span>
+        <div class="icon-btn"><i class="bi bi-search"></i></div>
+        <div class="icon-btn"><i class="bi bi-bell"></i></div>
+        <div class="avatar">황</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- DASHBOARD -->
+    <section class="screen active" id="scr-dash">
+      <div class="page-head">
+        <div>
+          <div class="crumb">홈 <i class="bi bi-chevron-right"></i> 대시보드</div>
+          <h1 class="title">안녕하세요, 황원현님 👋</h1>
+          <p class="subtitle">오늘도 임상 프로젝트 현황을 확인해 보세요.</p>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn-x btn-ghost-x"><i class="bi bi-calendar3"></i> 2026 상반기</button>
+          <button class="btn-x btn-primary-x"><i class="bi bi-plus-lg"></i> 새 프로젝트</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi k1"><div class="glow"></div><div class="ico"><i class="bi bi-folder2-open"></i></div><div class="lab">진행중 프로젝트</div><div class="val">24</div><span class="trend"><i class="bi bi-arrow-up-short"></i> 12%</span></div>
+        <div class="kpi k2"><div class="glow"></div><div class="ico"><i class="bi bi-hospital"></i></div><div class="lab">활성 임상기관</div><div class="val">138</div><span class="trend"><i class="bi bi-arrow-up-short"></i> 6%</span></div>
+        <div class="kpi k3"><div class="glow"></div><div class="ico"><i class="bi bi-clipboard2-pulse"></i></div><div class="lab">대기 결재</div><div class="val">7</div><span class="trend"><i class="bi bi-arrow-down-short"></i> 3건</span></div>
+        <div class="kpi k4"><div class="glow"></div><div class="ico"><i class="bi bi-cash-coin"></i></div><div class="lab">집행 예산</div><div class="val">68%</div><span class="trend">정상</span></div>
+      </div>
+
+      <div class="row g-4 mb-1">
+        <div class="col-12 col-xl-7">
+          <div class="card-x" style="height:100%">
+            <div class="card-head"><h3>지역별 임상 사이트</h3><a class="link" href="#">상세 보기</a></div>
+            <div class="card-pad">
+              <div class="bars">
+                <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:62%"></div></div><div class="bar-x">서울</div></div>
+                <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:88%"></div></div><div class="bar-x">경기</div></div>
+                <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:45%"></div></div><div class="bar-x">인천</div></div>
+                <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:70%"></div></div><div class="bar-x">대전</div></div>
+                <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:38%"></div></div><div class="bar-x">대구</div></div>
+                <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:55%"></div></div><div class="bar-x">부산</div></div>
+                <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:30%"></div></div><div class="bar-x">광주</div></div>
+              </div>
+              <div class="legend"><span><i style="background:#7c3aed"></i>등록 사이트 수</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-xl-5">
+          <div class="card-x" style="height:100%">
+            <div class="card-head"><h3>임상 단계 분포</h3></div>
+            <div class="card-pad">
+              <div class="donut-wrap">
+                <svg width="150" height="150" viewBox="0 0 42 42">
+                  <circle cx="21" cy="21" r="15.9" fill="none" stroke="#f3f1fa" stroke-width="6"></circle>
+                  <circle cx="21" cy="21" r="15.9" fill="none" stroke="#7c3aed" stroke-width="6" stroke-dasharray="38 62" stroke-dashoffset="25" stroke-linecap="round"></circle>
+                  <circle cx="21" cy="21" r="15.9" fill="none" stroke="#0ea5e9" stroke-width="6" stroke-dasharray="27 73" stroke-dashoffset="-13" stroke-linecap="round"></circle>
+                  <circle cx="21" cy="21" r="15.9" fill="none" stroke="#ec4899" stroke-width="6" stroke-dasharray="20 80" stroke-dashoffset="-40" stroke-linecap="round"></circle>
+                  <text x="21" y="20" text-anchor="middle" font-size="7" font-weight="800" fill="#1b1834">52</text>
+                  <text x="21" y="26" text-anchor="middle" font-size="3.4" fill="#7b7894">전체 과제</text>
+                </svg>
+                <div class="donut-legend">
+                  <div class="dl-row"><span class="name"><i style="background:#7c3aed"></i>1상</span><span class="num">20</span></div>
+                  <div class="dl-row"><span class="name"><i style="background:#0ea5e9"></i>2상</span><span class="num">14</span></div>
+                  <div class="dl-row"><span class="name"><i style="background:#ec4899"></i>3상</span><span class="num">10</span></div>
+                  <div class="dl-row"><span class="name"><i style="background:#e5e7eb"></i>기타</span><span class="num">8</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mt-1">
+        <div class="col-12 col-xl-7">
+          <div class="card-x">
+            <div class="card-head"><h3>최근 결재 요청</h3><a class="link" href="#">전체 보기</a></div>
+            <table class="tbl">
+              <thead><tr><th>요청명</th><th>요청자</th><th>상태</th><th>요청일</th></tr></thead>
+              <tbody>
+                <tr><td>다인종 PK 1상 예산 변경</td><td><div class="ppl"><span class="ava" style="background:#6366f1">김</span>김대웅</div></td><td><span class="badge-x b-amber">대기</span></td><td class="muted">06-01</td></tr>
+                <tr><td>TZD DDI 1상 구성원 추가</td><td><div class="ppl"><span class="ava" style="background:#10b981">이</span>이서연</div></td><td><span class="badge-x b-green">승인</span></td><td class="muted">05-30</td></tr>
+                <tr><td>루피어 1상 과제정보 수정</td><td><div class="ppl"><span class="ava" style="background:#f59e0b">박</span>박지훈</div></td><td><span class="badge-x b-sky">검토중</span></td><td class="muted">05-29</td></tr>
+                <tr><td>전체 예산 재배분 요청</td><td><div class="ppl"><span class="ava" style="background:#ec4899">최</span>최유진</div></td><td><span class="badge-x b-rose">반려</span></td><td class="muted">05-28</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-12 col-xl-5">
+          <div class="card-x">
+            <div class="card-head"><h3>알림</h3><a class="link" href="#">모두 읽음</a></div>
+            <ul class="nlist">
+              <li><div class="ni" style="background:linear-gradient(135deg,#f43f5e,#ec4899)"><i class="bi bi-exclamation-lg"></i></div><div><p class="nt">이슈 Task 등록</p><p class="nd">김대웅님이 이슈를 등록했습니다.</p></div><span class="ntime">10분 전</span></li>
+              <li><div class="ni" style="background:linear-gradient(135deg,#6366f1,#a855f7)"><i class="bi bi-at"></i></div><div><p class="nt">멘션 안내</p><p class="nd">게시판에서 회원님을 언급했습니다.</p></div><span class="ntime">1시간 전</span></li>
+              <li><div class="ni" style="background:linear-gradient(135deg,#0ea5e9,#22d3ee)"><i class="bi bi-check-lg"></i></div><div><p class="nt">결재 승인</p><p class="nd">기본정보 변경이 승인되었습니다.</p></div><span class="ntime">어제</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIST -->
+    <section class="screen" id="scr-list">
+      <div class="page-head">
+        <div>
+          <div class="crumb">홈 <i class="bi bi-chevron-right"></i> 프로그램 <i class="bi bi-chevron-right"></i> 전체 프로젝트</div>
+          <h1 class="title">프로젝트 목록</h1>
+          <p class="subtitle">전체 24개 프로젝트 · 진행중 18 · 완료 6</p>
+        </div>
+        <button class="btn-x btn-primary-x"><i class="bi bi-plus-lg"></i> 프로젝트 등록</button>
+      </div>
+      <div class="toolbar">
+        <div class="search"><i class="bi bi-search"></i><input placeholder="프로젝트명, 과제번호 검색"></div>
+        <div class="chips">
+          <button class="chip on">전체</button>
+          <button class="chip">1상</button>
+          <button class="chip">2상</button>
+          <button class="chip">3상</button>
+          <button class="chip">진행중</button>
+        </div>
+        <button class="btn-x btn-ghost-x" style="margin-left:auto"><i class="bi bi-funnel"></i> 필터</button>
+        <button class="btn-x btn-ghost-x"><i class="bi bi-download"></i> 내보내기</button>
+      </div>
+      <div class="card-x">
+        <table class="tbl">
+          <thead><tr><th>프로젝트명</th><th>단계</th><th>담당 PM</th><th>진행률</th><th>상태</th><th>종료 예정</th></tr></thead>
+          <tbody>
+            <tr><td><div style="font-weight:700">다인종 PK 1상</div><div class="muted" style="font-size:13px">DW_DWP16001107 · 이나보글리플로진</div></td><td><span class="badge-x b-accent">1상</span></td><td><div class="ppl"><span class="ava" style="background:#6366f1">김</span>김대웅</div></td><td><div class="d-flex align-items-center gap-2"><div class="progress-x"><span style="width:72%"></span></div><span class="muted" style="font-size:13px">72%</span></div></td><td><span class="badge-x b-green">진행중</span></td><td class="muted">2026-12-31</td></tr>
+            <tr><td><div style="font-weight:700">TZD DDI 1상</div><div class="muted" style="font-size:13px">DW_DWP16001108 · 이나보글리플로진</div></td><td><span class="badge-x b-accent">1상</span></td><td><div class="ppl"><span class="ava" style="background:#10b981">이</span>이서연</div></td><td><div class="d-flex align-items-center gap-2"><div class="progress-x"><span style="width:45%"></span></div><span class="muted" style="font-size:13px">45%</span></div></td><td><span class="badge-x b-green">진행중</span></td><td class="muted">2027-03-15</td></tr>
+            <tr><td><div style="font-weight:700">루피어 1상</div><div class="muted" style="font-size:13px">DW_DWP16001109 · 루피어(제네릭)</div></td><td><span class="badge-x b-sky">2상</span></td><td><div class="ppl"><span class="ava" style="background:#f59e0b">박</span>박지훈</div></td><td><div class="d-flex align-items-center gap-2"><div class="progress-x"><span style="width:90%"></span></div><span class="muted" style="font-size:13px">90%</span></div></td><td><span class="badge-x b-amber">검토중</span></td><td class="muted">2026-08-20</td></tr>
+            <tr><td><div style="font-weight:700">항암제 병용 3상</div><div class="muted" style="font-size:13px">DW_DWP16001110 · DW-A11</div></td><td><span class="badge-x b-rose">3상</span></td><td><div class="ppl"><span class="ava" style="background:#ec4899">최</span>최유진</div></td><td><div class="d-flex align-items-center gap-2"><div class="progress-x"><span style="width:28%"></span></div><span class="muted" style="font-size:13px">28%</span></div></td><td><span class="badge-x b-green">진행중</span></td><td class="muted">2028-01-10</td></tr>
+            <tr><td><div style="font-weight:700">대사질환 2상</div><div class="muted" style="font-size:13px">DW_DWP16001111 · DW-M22</div></td><td><span class="badge-x b-sky">2상</span></td><td><div class="ppl"><span class="ava" style="background:#0ea5e9">정</span>정민호</div></td><td><div class="d-flex align-items-center gap-2"><div class="progress-x"><span style="width:100%"></span></div><span class="muted" style="font-size:13px">100%</span></div></td><td><span class="badge-x b-muted">완료</span></td><td class="muted">2026-04-30</td></tr>
+          </tbody>
+        </table>
+        <div class="pager">
+          <span class="muted" style="font-size:13.5px">전체 24건 중 1–5</span>
+          <div class="pp"><button><i class="bi bi-chevron-left"></i></button><button class="on">1</button><button>2</button><button>3</button><button>4</button><button><i class="bi bi-chevron-right"></i></button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="screen" id="scr-form">
+      <div class="page-head">
+        <div>
+          <div class="crumb">홈 <i class="bi bi-chevron-right"></i> 파트너관리 <i class="bi bi-chevron-right"></i> 기관 등록</div>
+          <h1 class="title">임상기관 등록</h1>
+          <p class="subtitle">신규 임상시험 실시기관 정보를 입력합니다.</p>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn-x btn-ghost-x">취소</button>
+          <button class="btn-x btn-ghost-x"><i class="bi bi-save"></i> 임시저장</button>
+          <button class="btn-x btn-primary-x"><i class="bi bi-check-lg"></i> 등록 완료</button>
+        </div>
+      </div>
+      <div class="card-x card-pad" style="max-width:940px">
+        <div class="form-tabs">
+          <button class="active">기본 정보</button>
+          <button>담당자</button>
+          <button>계약 / 첨부</button>
+        </div>
+        <div class="form-section">
+          <p class="fs-title"><span class="n">1</span> 기관 기본 정보</p>
+          <p class="fs-desc">기관의 식별 정보와 분류를 입력하세요.</p>
+          <div class="frow">
+            <div class="field"><label>기관명 <span class="req">*</span></label><input class="inp" placeholder="예) 서울대학교병원"></div>
+            <div class="field"><label>기관 코드 <span class="req">*</span></label><input class="inp" placeholder="예) SNUH-001"></div>
+            <div class="field"><label>기관 유형</label><select><option>상급종합병원</option><option>종합병원</option><option>병원</option><option>의원</option></select></div>
+            <div class="field"><label>지역</label><select><option>서울</option><option>경기</option><option>인천</option><option>대전</option></select></div>
+            <div class="field col-2"><label>주소</label><input class="inp" placeholder="도로명 주소를 입력하세요"></div>
+          </div>
+        </div>
+        <hr class="hr">
+        <div class="form-section">
+          <p class="fs-title"><span class="n">2</span> 상태 및 분류</p>
+          <p class="fs-desc">기관의 활성 상태와 임상 참여 단계를 지정하세요.</p>
+          <div class="frow">
+            <div class="field"><label>활성 상태</label><div class="seg"><button class="on">활성</button><button>비활성</button><button>보류</button></div></div>
+            <div class="field"><label>참여 단계</label><select><option>1상</option><option>2상</option><option>3상</option><option>전체</option></select></div>
+            <div class="field col-2"><label>비고</label><textarea rows="3" placeholder="추가 설명을 입력하세요"></textarea><div class="hint">최대 500자까지 입력할 수 있습니다.</div></div>
+          </div>
+        </div>
+        <hr class="hr">
+        <div class="form-section" style="margin-bottom:0">
+          <p class="fs-title"><span class="n">3</span> 첨부 파일</p>
+          <p class="fs-desc">기관 인증서, 계약서 등을 첨부하세요.</p>
+          <div class="upload"><i class="bi bi-cloud-arrow-up"></i><div style="margin-top:8px;font-weight:700;color:var(--text)">파일을 끌어다 놓거나 클릭하여 업로드</div><div style="font-size:13px;margin-top:4px">PDF, DOCX, PNG · 최대 20MB</div></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    document.querySelectorAll('.scr-tabs button').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('.scr-tabs button').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+        document.getElementById('scr-'+b.dataset.scr).classList.add('active');
+        window.scrollTo({top:0,behavior:'smooth'});
+      });
+    });
+    document.querySelectorAll('.form-tabs button, .seg button, .chip').forEach(b=>{
+      b.addEventListener('click',()=>{
+        b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('active','on'));
+        b.classList.add(b.parentElement.classList.contains('form-tabs')?'active':'on');
+      });
+    });
+  </script>
+</body>
+</html>
